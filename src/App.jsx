@@ -15,13 +15,27 @@ function App() {
   const [todos, setTodos] = useState([])
   const [draft, setDraft] = useState('')
 
+  const logout = () => {
+    window.localStorage.removeItem(TOKEN_KEY)
+    window.localStorage.removeItem(USERNAME_KEY)
+    setToken(null)
+    setUsername(null)
+    setTodos([])
+  }
+
   useEffect(() => {
     if (!token) return
 
     fetch(TODOS_URL, {
       headers: { Authorization: `Token ${token}` },
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 401) {
+          logout()
+          return []
+        }
+        return res.json()
+      })
       .then((data) => setTodos(data))
   }, [token])
 
@@ -59,7 +73,8 @@ function App() {
       )
       .then(({ ok, data }) => {
         if (!ok) {
-          setAuthError(data.error || 'Please check your details and try again.')
+          const firstError = Object.values(data)[0]
+          setAuthError(data.error || firstError?.[0] || 'Please check your details and try again.')
           return
         }
 
@@ -69,14 +84,6 @@ function App() {
         setUsername(data.username)
         setAuthForm({ username: '', email: '', password: '' })
       })
-  }
-
-  const logout = () => {
-    window.localStorage.removeItem(TOKEN_KEY)
-    window.localStorage.removeItem(USERNAME_KEY)
-    setToken(null)
-    setUsername(null)
-    setTodos([])
   }
 
   const handleSubmit = (event) => {
