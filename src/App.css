@@ -14,6 +14,18 @@
   background: #0bed31;
 }
 
+.auth-card {
+  max-width: 420px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
 h1 {
   margin: 0 0 8px;
   font-size: 2rem;
@@ -29,6 +41,10 @@ h1 {
   display: flex;
   gap: 8px;
   margin-bottom: 16px;
+}
+
+.auth-card .todo-form {
+  flex-direction: column;
 }
 
 .todo-form input {
@@ -48,6 +64,22 @@ h1 {
   color: #ffffff;
   font: inherit;
   cursor: pointer;
+}
+
+.text-button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #111827;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.error-message {
+  margin: 0 0 12px;
+  color: #991b1b;
+  font-weight: 700;
 }
 
 .todo-list {
